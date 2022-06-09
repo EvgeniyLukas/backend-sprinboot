@@ -6,13 +6,23 @@ import com.example.backendsprinboot.entity.Priority;
 import com.example.backendsprinboot.service.CategoryService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
+
+  HttpHeaders header = new HttpHeaders();
 
   private CategoryService categoryService;
 
@@ -21,12 +31,59 @@ public class CategoryController {
     this.categoryService = categoryService;
   }
 
-  @GetMapping("/test")
+  @GetMapping("/all")
   public List<Category> test() {
-    List<Category> categoryList = categoryService.findAllCategory();
+    return categoryService.findAllCategory();
+  }
 
-    System.out.println("priorityList = " + categoryList);
 
-    return categoryList;
+  //  @PostMapping(value = "/add", produces = "application/json", consumes = "application/json")
+  @PostMapping("/add")
+  public ResponseEntity<Category> addCategory(@RequestBody Category category) {
+    if (category.getId() != null && category.getId() != 0) {
+      header.add("desk", "id must be null");
+      return new ResponseEntity<>(header, HttpStatus.NOT_ACCEPTABLE);
+    }
+    if (category.getTitle() == null || category.getTitle().trim().length() == 0) {
+      header.add("desk", "missed param: title");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(header).build();
+    }
+    return ResponseEntity.ok(categoryService.saveCategory(category));
+  }
+
+  @PutMapping("/update")
+  public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
+    if (category.getId() == null && category.getId() == 0) {
+      header.add("desk", "missed param: id");
+      return new ResponseEntity<>(header, HttpStatus.NOT_ACCEPTABLE);
+    }
+    if (category.getTitle() == null || category.getTitle().trim().length() == 0) {
+      header.add("desk", "missed param: title");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(header).build();
+    }
+    return ResponseEntity.ok(categoryService.saveCategory(category));
+  }
+
+  @GetMapping("/id/{id}")
+  public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+    Category category;
+    try {
+      category = categoryService.getById(id);
+    } catch (Exception e) {
+      header.add("desc", "category with id = " + id + " not found");
+      return new ResponseEntity<>(header, HttpStatus.NOT_FOUND);
+    }
+    return ResponseEntity.ok(category);
+  }
+
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity<Category> deleteById(@PathVariable Long id) {
+    try {
+      categoryService.deleteById(id);
+    } catch (Exception e) {
+      header.add("desc", "category with id = " + id + " not found");
+      return new ResponseEntity<>(header, HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }
