@@ -2,7 +2,7 @@ package com.example.backendsprinboot.controller;
 
 
 import com.example.backendsprinboot.entity.Category;
-import com.example.backendsprinboot.entity.Priority;
+import com.example.backendsprinboot.search.CategorySearchCriteria;
 import com.example.backendsprinboot.service.CategoryService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class CategoryController {
 
   @GetMapping("/all")
   public List<Category> test() {
-    return categoryService.findAllCategory();
+    return categoryService.findAllAndSortByTitle();
   }
 
 
@@ -86,4 +86,11 @@ public class CategoryController {
     }
     return new ResponseEntity<>(HttpStatus.OK);
   }
+
+  @PostMapping("/search")
+  public ResponseEntity<List<Category>> searchCategory(
+      @RequestBody CategorySearchCriteria criteria) {
+    return ResponseEntity.ok(categoryService.searchCategory(criteria));
+  }
+
 }

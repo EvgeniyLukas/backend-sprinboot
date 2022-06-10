@@ -20,4 +20,7 @@ public class StatusService {
     return statusRepository.findAll();
   }
 
+  public StatusEntity getById(Long id) {
+    return statusRepository.findById(id).orElse(null);
+  }
 }

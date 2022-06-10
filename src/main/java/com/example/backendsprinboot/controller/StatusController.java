@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/status")
 public class StatusController {
 
+  HttpHeaders header = new HttpHeaders();
+
   private StatusService statusService;
 
   @Autowired
@@ -29,12 +32,18 @@ public class StatusController {
     this.statusService = statusService;
   }
 
-  @GetMapping("/test")
-  public List<StatusEntity> test() {
-    List<StatusEntity> statusList = statusService.findAllStatus();
+  private final Long defaultId = 1L;
 
-    System.out.println("TaskList = " + statusList);
-
-    return statusList;
+  @GetMapping("/status")
+  public ResponseEntity<StatusEntity> findById() {
+    StatusEntity status;
+    try {
+      status = statusService.getById(defaultId);
+    } catch (Exception e) {
+      header.add("desc", "status with id = " + defaultId + " not found");
+      return new ResponseEntity<>(header, HttpStatus.NOT_FOUND);
+    }
+    return ResponseEntity.ok(status);
   }
+
 }

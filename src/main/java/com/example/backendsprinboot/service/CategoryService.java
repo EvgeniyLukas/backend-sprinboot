@@ -1,11 +1,9 @@
 package com.example.backendsprinboot.service;
 
 import com.example.backendsprinboot.entity.Category;
-import com.example.backendsprinboot.entity.StatusEntity;
 import com.example.backendsprinboot.repo.CategoryRepository;
-import com.example.backendsprinboot.repo.StatusRepository;
+import com.example.backendsprinboot.search.CategorySearchCriteria;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +35,14 @@ public class CategoryService {
 
   public void deleteById(Long id) {
     categoryRepository.deleteById(id);
+  }
+
+  public List<Category> findAllAndSortByTitle() {
+    return categoryRepository.findAllByOrderByTitleAsc();
+  }
+
+  public List<Category> searchCategory(CategorySearchCriteria criteria) {
+    System.out.println(criteria.getTitle());
+    return categoryRepository.findByTitle(criteria.getTitle());
   }
 }

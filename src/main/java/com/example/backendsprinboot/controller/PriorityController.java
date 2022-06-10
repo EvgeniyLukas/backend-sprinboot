@@ -2,6 +2,8 @@ package com.example.backendsprinboot.controller;
 
 import com.example.backendsprinboot.entity.Category;
 import com.example.backendsprinboot.entity.Priority;
+import com.example.backendsprinboot.search.CategorySearchCriteria;
+import com.example.backendsprinboot.search.PrioritySearchCriteria;
 import com.example.backendsprinboot.service.PriorityService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class PriorityController {
 
   @GetMapping("/all")
   public List<Priority> test() {
-    return priorityService.findAllPriorities();
+    return priorityService.findAllAndSortById();
   }
 
   @PostMapping("/add")
@@ -87,6 +89,13 @@ public class PriorityController {
       return new ResponseEntity<>(header, HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+
+  @PostMapping("/search")
+  public ResponseEntity<List<Priority>> searchPriority(
+      @RequestBody PrioritySearchCriteria criteria) {
+    return ResponseEntity.ok(priorityService.searchPriority(criteria));
   }
 
 }
