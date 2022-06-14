@@ -18,4 +18,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
   List<Category> findAllByOrderByTitleAsc();
 
+  void  deleteById(Long id);
+
 }
