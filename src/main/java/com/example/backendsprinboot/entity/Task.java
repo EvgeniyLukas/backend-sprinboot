@@ -13,11 +13,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 @Entity
 @Setter
 @NoArgsConstructor
+@ToString
 @Table(name = "task", schema = "tasklist")
 public class Task {
 

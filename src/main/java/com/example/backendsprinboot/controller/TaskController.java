@@ -1,8 +1,6 @@
 package com.example.backendsprinboot.controller;
 
-import com.example.backendsprinboot.entity.Category;
 import com.example.backendsprinboot.entity.Task;
-import com.example.backendsprinboot.search.CategorySearchCriteria;
 import com.example.backendsprinboot.search.TaskSearchCriteria;
 import com.example.backendsprinboot.service.TaskService;
 import java.util.List;
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/task")
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "*")
 public class TaskController {
 
   private TaskService taskService;
@@ -41,8 +40,9 @@ public class TaskController {
   }
 
 
-  @PostMapping("/add")
+  @PostMapping(value = "/add", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Task> addTask(@RequestBody Task task) {
+    System.out.println("task = " + task);
     if (task.getId() != null && task.getId() != 0) {
       header.add("desk", "id must be null");
       return new ResponseEntity<>(header, HttpStatus.NOT_ACCEPTABLE);
@@ -79,7 +79,9 @@ public class TaskController {
     return ResponseEntity.ok(task);
   }
 
+
   @DeleteMapping("/delete/{id}")
+  @CrossOrigin(origins = "http://localhost:4200")
   public ResponseEntity<Task> deleteById(@PathVariable Long id) {
     try {
       taskService.deleteById(id);
