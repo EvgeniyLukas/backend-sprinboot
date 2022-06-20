@@ -69,7 +69,7 @@ public class CategoryController {
   }
 
   @GetMapping("/id/{id}")
-  public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+  public ResponseEntity<Category> getCategoryById(@PathVariable("id") Long id) {
     Category category;
     try {
       category = categoryService.getById(id);
@@ -80,9 +80,9 @@ public class CategoryController {
     return ResponseEntity.ok(category);
   }
 
-
+  @CrossOrigin(origins = "http://localhost:4200/delete")
   @DeleteMapping(value = "/delete/{id}",produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Category> deleteById(@PathVariable Long id) {
+  public ResponseEntity<Category> deleteById(@PathVariable("id") Long id) {
     System.out.println("id = " + id);
     try {
       categoryService.deleteById(id);

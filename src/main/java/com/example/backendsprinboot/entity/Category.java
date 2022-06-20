@@ -10,13 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 @Entity
 @NoArgsConstructor
 @Setter
+@ToString
 @Table(name = "category", schema = "tasklist")
 public class Category {
+
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "id")
@@ -29,7 +32,7 @@ public class Category {
   private Long completedCount;
   @Basic
   @Column(name = "uncompleted_count")
-  private Long uncompletedCount;
+  private Long unCompletedCount;
 
 
   public Long getId() {
@@ -44,8 +47,8 @@ public class Category {
     return completedCount;
   }
 
-  public Long getUncompletedCount() {
-    return uncompletedCount;
+  public Long getUnCompletedCount() {
+    return unCompletedCount;
   }
 
   @Override

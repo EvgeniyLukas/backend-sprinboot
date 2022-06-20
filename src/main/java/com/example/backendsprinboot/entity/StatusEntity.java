@@ -10,11 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 @Entity
 @Setter
 @NoArgsConstructor
+@ToString
 @Table(name = "stat", schema = "tasklist")
 public class StatusEntity {
 
@@ -27,7 +29,7 @@ public class StatusEntity {
   private Long completedTotal;
   @Basic
   @Column(name = "uncompleted_total")
-  private Long uncompletedTotal;
+  private Long unCompletedTotal;
 
   public Long getId() {
     return id;
@@ -37,8 +39,8 @@ public class StatusEntity {
     return completedTotal;
   }
 
-  public Long getUncompletedTotal() {
-    return uncompletedTotal;
+  public Long getUnCompletedTotal() {
+    return unCompletedTotal;
   }
 
 

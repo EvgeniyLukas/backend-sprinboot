@@ -23,7 +23,7 @@ public class BackendSprinbootApplication {
 //      public void addCorsMappings(CorsRegistry registry) {
 //        registry.addMapping("/api/**")
 //            .allowedOrigins("http://localhost:4200")
-//            .allowedMethods("PUT", "DELETE")
+//            .allowedMethods("GET, PUT, POST, DELETE")
 //            .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin",
 //                "Access-Control-Request-Method",
 //                "Access-Control-Request-Headers")

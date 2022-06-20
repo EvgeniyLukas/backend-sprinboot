@@ -10,11 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 @Entity
 @Setter
 @NoArgsConstructor
+@ToString
 @Table(name = "priority", schema = "tasklist")
 public class Priority {
 

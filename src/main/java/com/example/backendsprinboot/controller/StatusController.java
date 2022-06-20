@@ -45,6 +45,7 @@ public class StatusController {
       header.add("desc", "status with id = " + defaultId + " not found");
       return new ResponseEntity<>(header, HttpStatus.NOT_FOUND);
     }
+    System.out.println(status);
     return ResponseEntity.ok(status);
   }
 
